@@ -1,0 +1,13 @@
+:root {
+  --colot-main-text: black;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  color: black;
+}
+
+button {
+  background-color: black;
+}
