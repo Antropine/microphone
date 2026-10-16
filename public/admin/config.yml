@@ -1,0 +1,84 @@
+local_backend: true
+
+# Для опубликованной админки настройте Git backend и авторизацию.
+# Подробности — в README.md.
+backend:
+  name: git-gateway
+  branch: main
+
+locale: ru
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: prices
+    label: Цены
+    files:
+      - name: prices
+        label: Прайс-лист
+        file: public/content/prices.json
+        fields:
+          - label: Услуги
+            name: items
+            widget: list
+            summary: '{{fields.name}} — {{fields.price}} ₽'
+            fields:
+              - { label: Название, name: name, widget: string }
+              - { label: Описание, name: description, widget: text, required: false }
+              - { label: Цена в рублях, name: price, widget: number, value_type: int, min: 0 }
+              - { label: Единица, name: unit, widget: string, default: 'за час' }
+
+  - name: news
+    label: Новости
+    files:
+      - name: news
+        label: Список новостей
+        file: public/content/news.json
+        fields:
+          - label: Публикации
+            name: items
+            widget: list
+            summary: '{{fields.title}}'
+            fields:
+              - { label: Заголовок, name: title, widget: string }
+              - { label: Дата, name: date, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
+              - { label: Текст, name: body, widget: text }
+              - label: Фотографии
+                name: images
+                widget: list
+                required: false
+                default: []
+                summary: '{{fields.alt}}'
+                fields:
+                  - { label: Фото, name: image, widget: image, choose_url: false }
+                  - { label: Описание фото, name: alt, widget: string }
+
+  - name: gallery
+    label: Галерея
+    files:
+      - name: gallery
+        label: Фотографии галереи
+        file: public/content/gallery.json
+        fields:
+          - label: Фотографии
+            name: items
+            widget: list
+            default: []
+            summary: '{{fields.alt}}'
+            fields:
+              - { label: Фото, name: image, widget: image, choose_url: false }
+              - { label: Описание фото, name: alt, widget: string }
+              - { label: Подпись, name: caption, widget: string, required: false }
+
+  - name: contacts
+    label: Контакты
+    files:
+      - name: contacts
+        label: Контактная информация
+        file: public/content/contacts.json
+        fields:
+          - { label: Телефон, name: phone, widget: string }
+          - { label: Электронная почта, name: email, widget: string }
+          - { label: Адрес, name: address, widget: string }
+          - { label: Время работы, name: hours, widget: string }
+          - { label: Telegram (ссылка), name: telegram, widget: string, required: false }
